@@ -1,21 +1,24 @@
 import express from 'express';
 import DatabaseConnection from './db';
+import * as dotenv from "dotenv";
+import userAuthRouter from './routers/user.routers'
 
 
-const Port = 3001;
+dotenv.config();  // Load environment variables before using them
 const app = express();
-DatabaseConnection().then(()=> {
-    app.listen(Port, () => {
-        console.log(`Server is running on port ${Port}`);
-        
-    })
-}).catch((err)=> {
-console.log('mongodb connection failed!', err)
-})
 
+app.use(express.json());
+app.use('/api', userAuthRouter)
+DatabaseConnection()
+  .then(() => {
+    app.listen(process.env.PORT, () => {
+      console.log(`Server is running on port ${process.env.PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.log('mongodb connection failed!', err);
+  });
 
-
-
-app.get('/', ()=> {
-    console.log("get request")
-})
+app.get('/', (req, res) => {
+  res.send("GET request received");
+});
