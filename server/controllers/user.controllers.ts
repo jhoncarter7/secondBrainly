@@ -6,10 +6,17 @@ import { User } from "../schema/userSchema";
 const userSignUp = async (req: Request<String, String>, res: Response) => {
     const { userName, password } = req.body;
 try {
+
+
+    if(userName.length < 3 || password.length <8){
+        res.status(411).json({message: "error in input"})
+        return;
+    }
+
     const userExist = await User.findOne({userName})
 
     if(userExist){
-        res.status(400).json({message: "User already exist"})
+        res.status(403).json({message: "User already exist with this username"})
         return;
     }
 
@@ -28,4 +35,26 @@ try {
 }
 }
 
-export { userSignUp };
+const userSignin = async (req: Request<String, String>, res: Response) =>{
+  const {userName, password} = req.body;
+    try {
+        if(userName.lrngth <3 ||password.length < 8 ){
+            res.status(411).json({message: "error in input"})
+            return;
+        }
+
+        const userExist = await User.findOne({
+            userName
+        })
+
+        if(!userExist){
+            res.status(403).json({message: "wrong username or password"})
+            return;
+        }
+        res.status(200).json({message: "user logged in successfully"});
+    } catch (error) {
+        res.status(500).json({message: `internal server error ${error}`})
+    }
+}
+
+export { userSignUp, userSignin };
