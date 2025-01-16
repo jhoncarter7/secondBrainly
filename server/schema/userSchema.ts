@@ -1,8 +1,8 @@
 
-import mongoose from "mongoose";
+import {Schema, model} from "mongoose";
 import bcrypt from 'bcrypt';
 
-const userSchema = new mongoose.Schema({
+const userSchema = new Schema({
          userName: {
             type: String,
             require: true,
@@ -33,4 +33,4 @@ if(this.isModified('password')){
 next();
 })
 
-export const User = mongoose.model('User', userSchema);
+export const User = model('User', userSchema);
