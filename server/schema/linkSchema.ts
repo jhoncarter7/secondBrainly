@@ -1,11 +1,11 @@
 import mongoose from "mongoose";
-import { User } from "./userSchema.js";
+
 
 const linkSchema = new mongoose.Schema({
     hash: String,
     userId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: User
+        ref: 'User'
     }
 }, {timestamps: true})
 

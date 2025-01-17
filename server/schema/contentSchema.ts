@@ -1,5 +1,4 @@
 import { model, Schema } from "mongoose";
-import { User } from "./userSchema";
 
 const contentSchema = new Schema({
     type:{
@@ -9,19 +8,19 @@ const contentSchema = new Schema({
     },
     link: {
         type: String,
-        required: true,
+       
     },
     title:{
         type: String,
         required: true
     },
     tags:{
-        type: [],
+        type: {type: Schema.Types.ObjectId,  ref: 'Tag'},
         required: true
     },
     userId:{
         type: Schema.Types.ObjectId,
-        red: User
+        ref: 'User'
     }
 }, {timestamps: true});
 

@@ -19,6 +19,4 @@ DatabaseConnection()
     console.log('mongodb connection failed!', err);
   });
 
-app.get('/', (req, res) => {
-  res.send("GET request received");
-});
+

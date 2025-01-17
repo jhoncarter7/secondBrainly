@@ -51,15 +51,16 @@ const userSignin = async (req: Request<String, String>, res: Response) => {
             res.status(403).json({ message: "wrong username or password" })
             return;
         }
-        const isPasswordCorrect = userExist && bcrypt.compareSync(userExist.password as string, password)
+        const isPasswordCorrect = userExist && bcrypt.compareSync(password, userExist.password as string)
         if (!isPasswordCorrect) {
             res.status(403).json({ message: "wrong username or password" })
+            return;
         }
         if (!process.env.JWT_SECRET) {
             throw new Error("JWT_SECRET is not defined");
         }
         const token = jwt.sign({ id: userExist._id }, process.env.JWT_SECRET, { expiresIn: '1d' })
-        const {password: pass, ...rest} = userExist
+        const {password: pass, ...rest} = (userExist as any)._doc
         res.cookie(
             'access_token', token,
             {
@@ -67,6 +68,7 @@ const userSignin = async (req: Request<String, String>, res: Response) => {
             }).status(200).json({ message: "user logged in successfully", user: rest });
     } catch (error) {
         res.status(500).json({ message: `internal server error ${error}` })
+        return;
     }
 }
 
