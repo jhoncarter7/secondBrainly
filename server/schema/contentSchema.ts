@@ -16,11 +16,12 @@ const contentSchema = new Schema({
     },
     tags:{
         type: {type: Schema.Types.ObjectId,  ref: 'Tag'},
-        required: true
+        
     },
     userId:{
         type: Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        required: true
     }
 }, {timestamps: true});
 

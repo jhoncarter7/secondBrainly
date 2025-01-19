@@ -38,7 +38,7 @@ const userSignUp = async (req: Request<String, String>, res: Response) => {
 const userSignin = async (req: Request<String, String>, res: Response) => {
     const { userName, password } = req.body;
     try {
-        if (userName.lrngth < 3 || password.length < 8) {
+        if (userName.length < 3 || password.length < 8) {
             res.status(411).json({ message: "error in input" })
             return;
         }
@@ -51,7 +51,7 @@ const userSignin = async (req: Request<String, String>, res: Response) => {
             res.status(403).json({ message: "wrong username or password" })
             return;
         }
-        const isPasswordCorrect = userExist && bcrypt.compareSync(password, userExist.password as string)
+        const isPasswordCorrect = userExist && bcrypt.compare(password, userExist.password as string)
         if (!isPasswordCorrect) {
             res.status(403).json({ message: "wrong username or password" })
             return;
@@ -62,7 +62,7 @@ const userSignin = async (req: Request<String, String>, res: Response) => {
         const token = jwt.sign({ id: userExist._id }, process.env.JWT_SECRET, { expiresIn: '1d' })
         const {password: pass, ...rest} = (userExist as any)._doc
         res.cookie(
-            'access_token', token,
+            'accessToken', token,
             {
                 httpOnly: true,
             }).status(200).json({ message: "user logged in successfully", user: rest });
