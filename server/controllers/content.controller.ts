@@ -2,18 +2,11 @@ import {Request, Response } from "express";
 import Content from "../schema/contentSchema";
 
 
-//  export interface Request extends Request {
-//     user: {
-//         _id: string;
-//         userName: string;
-//     }
-//     createdContent: {}
 
-// }
 const createContent = async(req: Request, res: Response): Promise<void>=> {
     const {type, link, title} = req.body;
     try {
-        const content = await (await Content.create({type, link, title, tags: [], userId: req.user?._id }));
+        const content =  await Content.create({type, link, title, tags: [], userId: req.user?._id });
         if(!content){
             res.status(400).json({
                 message: "Content not created"

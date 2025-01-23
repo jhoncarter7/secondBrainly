@@ -1,14 +1,15 @@
 import { model, Schema } from "mongoose";
-
+const contentTypes = ['image', 'video', 'article', 'audio']; 
 const contentSchema = new Schema({
     type:{
         type: String,
+        enum: contentTypes,
         required: true,
 
     },
     link: {
         type: String,
-       
+        required: true
     },
     title:{
         type: String,

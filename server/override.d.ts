@@ -6,7 +6,8 @@ declare global {
             user: {
                 _id: string;
                 userName: string;
-            }
+            },
+            shareLink: boolean;
         }
     }
 }
