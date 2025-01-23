@@ -4,6 +4,7 @@ import * as dotenv from "dotenv";
 import userAuthRouter from './routers/user.routes'
 import userVerify from './middleware/userVerify';
 import contentRouter from './routers/content.routes';
+import linkRouter from './routers/link.routes'
 import bodyParser from 'body-parser';
 import cookieParser from "cookie-parser";
 dotenv.config(); 
@@ -15,6 +16,7 @@ app.use(express.json());
 app.use(cookieParser())
 app.use('/api/v1', userAuthRouter)
 app.use('/api/v1/content', userVerify, contentRouter)
+app.use('/api/v1/link', userVerify, linkRouter)
 DatabaseConnection()
   .then(() => {
     app.listen(process.env.PORT, () => {

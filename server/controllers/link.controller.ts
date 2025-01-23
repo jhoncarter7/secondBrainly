@@ -48,10 +48,10 @@ const generateShareLink = async (req: Request, res: Response) => {
 }
 
 const shareableLink = async (req: Request, res: Response) => {
-    const { hash } = req.body.params;
+    const { shareId } = req.params;
     try {
         const findHash = await LinkModel.findOne({
-            hash
+            hash: shareId
         })
 
         if (!findHash) {
@@ -68,6 +68,7 @@ const shareableLink = async (req: Request, res: Response) => {
                 message: "user not found"
             })
         }
+        console.log("hash ", findHash)
         const user = await User.findById({
             _id: findHash.userId
         })
@@ -78,6 +79,7 @@ const shareableLink = async (req: Request, res: Response) => {
 
     } catch (error) {
         throw new Error(`some error in link creation ${error}`)
+        
     }
 }
 
