@@ -15,6 +15,7 @@ const generateShareLink = async (req: Request, res: Response) => {
 
             if (ExistingLink) {
                 res.status(200).json({
+                    success: true,
                     hash: ExistingLink.hash,
                 })
                 return;
@@ -28,8 +29,10 @@ const generateShareLink = async (req: Request, res: Response) => {
 
             if (link) {
                 res.status(201).json({
+                    success: true,
                     hash: link.hash
                 })
+                return;
             }
 
 
